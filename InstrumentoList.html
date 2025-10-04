@@ -1,0 +1,32 @@
+{% extends "loja/base.html" %}
+{% block content %}
+<h1>Instrumentos</h1>
+<a href="{% url 'instrumento_create' %}">Novo Instrumento</a>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Qtd</th>
+            <th>Fornecedor</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+  <tbody>
+    {% for item in object_list %}
+    <tr>
+      <td>{{ item.nome }}</td>
+      <td>{{ item.get_categoria_display }}</td>
+      <td>R$ {{ item.preco }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>{{ item.fornecedor }}</td>
+      <td>
+        <a href="{% url 'instrumento_update' item.pk %}">Editar</a> |
+        <a href="{% url 'instrumento_delete' item.pk %}">Excluir</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

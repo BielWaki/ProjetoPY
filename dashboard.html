@@ -1,0 +1,76 @@
+{% extends "loja/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total de Instrumentos</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ total_instrumentos }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Itens em Estoque</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ total_estoque }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">Valor do Estoque</div>
+            <div class="card-body">
+                <h5 class="card-title">R$ {{ valor_estoque|floatformat:2 }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Manutenções Pendentes</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ manutencoes_pendentes }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <h3>Top 5 Instrumentos Mais Vendidos</h3>
+        <canvas id="topVendidosChart"></canvas>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('topVendidosChart').getContext('2d');
+    const topVendidosChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ top_vendidos_labels|safe }},
+            datasets: [{
+                label: 'Unidades Vendidas',
+                data: {{ top_vendidos_data|safe }},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
